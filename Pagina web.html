@@ -1,0 +1,338 @@
+ 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CompuSmart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div id="animated-bg"></div>
+    <header id="page-header">
+        <img src="logon.png" alt="Logo" id="logo-img" />
+        <h1 id="logo-text">CompuSmart</h1>
+    </header>
+    <nav class="top-nav" id="top-nav" aria-label="Menú principal">
+        <a href="#inicio" class="menu-item active" id="menu-inicio">Inicio</a>
+        <a class="menu-item" id="toggle-internas" aria-expanded="false" role="button" tabindex="0">
+            Partes Internas
+            <span class="arrow">&#9654;</span>
+        </a>
+        <div class="submenu" id="submenu-internas" aria-hidden="true">
+            <a href="#case" class="submenu-item">Case (Gabinete)</a>
+            <a href="#tarjeta-madre" class="submenu-item">Tarjeta Madre</a>
+            <a href="#fuente-poder" class="submenu-item">Fuente de Poder</a>
+            <a href="#procesador" class="submenu-item">Procesador (CPU)</a>
+            <a href="#memorias" class="submenu-item">Memorias (RAM y ROM)</a>
+            <a href="#disco-duro" class="submenu-item">Disco Duro (HDD/SSD)</a>
+            <a href="#tarjetas-expansion" class="submenu-item">Tarjetas de Expansión</a>
+            <a href="#unidades-almacenamiento" class="submenu-item">Unidades de Almacenamiento</a>
+            <a href="#buses-datos" class="submenu-item">Buses de Datos</a>
+            <a href="#setup-bios" class="submenu-item">Setup y BIOS</a>
+            <a href="#ensamblaje" class="submenu-item">Ensamblaje y Conexión</a>
+        </div>
+        <a class="menu-item" id="toggle-externas" aria-expanded="false" role="button" tabindex="0">
+            Partes Externas
+            <span class="arrow">&#9654;</span>
+        </a>
+        <div class="submenu" id="submenu-externas" aria-hidden="true">
+            <a href="#teclado" class="submenu-item">Teclado</a>
+            <a href="#monitor" class="submenu-item">Monitor</a>
+            <a href="#mouse" class="submenu-item">Mouse</a>
+            <a href="#impresora" class="submenu-item">Impresora</a>
+        </div>
+        <a href="#acerca-de" class="menu-item">Acerca de</a>
+    </nav>
+    <main id="main-content">
+        <section id="content-display" aria-live="polite" aria-atomic="true" tabindex="0">
+            <!-- Dynamic content will be loaded here -->
+        </section>
+    </main>
+    <script>
+        // Close submenu function
+        function closeSubmenu(toggleId, submenuId) {
+            const toggle = document.getElementById(toggleId);
+            const submenu = document.getElementById(submenuId);
+            toggle.setAttribute('aria-expanded', 'false');
+            submenu.style.display = 'none';
+            submenu.setAttribute('aria-hidden', 'true');
+            toggle.classList.remove('expanded');
+        }
+
+        // Submenu toggle functionality
+        function toggleSubmenu(toggleId, submenuId) {
+            const toggle = document.getElementById(toggleId);
+            const submenu = document.getElementById(submenuId);
+            toggle.addEventListener('click', () => {
+                const expanded = toggle.getAttribute('aria-expanded') === 'true';
+                toggle.setAttribute('aria-expanded', String(!expanded));
+                if (!expanded) {
+                    // Position submenu below the toggle, horizontally centered
+                    const toggleRect = toggle.getBoundingClientRect();
+                    submenu.style.position = 'absolute';
+                    submenu.style.top = '100%';
+                    submenu.style.left = '50%';
+                    submenu.style.transform = 'translateX(-50%)';
+                    submenu.style.minWidth = '220px';
+                    submenu.style.display = 'flex';
+                } else {
+                    submenu.style.display = 'none';
+                }
+                submenu.setAttribute('aria-hidden', String(expanded));
+                toggle.classList.toggle('expanded');
+            });
+            // Keyboard accessibility
+            toggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggle.click();
+                }
+            });
+        }
+        toggleSubmenu('toggle-internas', 'submenu-internas');
+        toggleSubmenu('toggle-externas', 'submenu-externas');
+
+        // Components data
+        const components = {
+            "resumen-internas": {
+                title: "Arquitectura del Computador - Partes Internas",
+                image: "internas.jpg",
+                description: "Case (Gabinete): Estructura que protege y alberga los componentes internos. Tarjeta Madre: Conecta y permite la comunicación entre componentes. Fuente de Poder: Suministra energía eléctrica. Procesador (CPU): Ejecuta instrucciones y procesa datos. Memorias (RAM y ROM): Almacenan datos temporal y permanentemente. Disco Duro (HDD/SSD): Almacenamiento permanente de datos. Tarjetas de Expansión: Añaden funcionalidades adicionales. Unidades de Almacenamiento: Dispositivos para guardar datos. Buses de Datos: Transportan información entre componentes. Setup, BIOS y Pila: Configuran y controlan el hardware. Ensamblaje y Conexión: Integración de todos los elementos para funcionamiento óptimo.",
+                link: "https://es.wikipedia.org/wiki/Componente_de_computadora",
+                video: ""
+            },
+            "case": {
+                title: "Case (Gabinete)",
+                image: "https://whatsabyte.com/wp-content/uploads/PC-cases-1024x718.jpg",
+                description: "El case es la estructura que alberga y protege todos los componentes internos del computador.",
+                link: "https://es.wikipedia.org/wiki/Torre_de_computadora",
+                video: "https://youtu.be/eMKkvGqqyy4?si=1ulnGeHc7Ws0qDFa"
+            },
+            "tarjeta-madre": {
+                title: "Tarjeta Madre (Motherboard)",
+                image: "https://img1.wsimg.com/team/ip/e886bec9-0561-43eb-aeba-24fc41f54012/Tarjeta%20Madre-0001.jpg",
+                description: "La tarjeta madre conecta todos los componentes internos y permite la comunicación entre ellos.",
+                link: "https://es.wikipedia.org/wiki/Placa_base",
+                video: "https://www.youtube.com/embed/5A9v9v9v9v9"
+            },
+            "fuente-poder": {
+                title: "Fuente de Poder",
+                image: "https://m.media-amazon.com/images/I/61I85Cwn2PL._AC_.jpg",
+                description: "La fuente de poder convierte la corriente alterna en corriente continua y suministra energía estable a todos los componentes del computador.",
+                link: "https://es.wikipedia.org/wiki/Fuente_de_alimentaci%C3%B3n",
+                video: ""
+            },
+            "procesador": {
+                title: "Procesador (CPU)",
+                image: "https://m.media-amazon.com/images/I/61sc1TxfuXL.jpg",
+                description: "El procesador es el cerebro del computador, encargado de ejecutar instrucciones y procesar datos rápidamente.",
+                link: "https://es.wikipedia.org/wiki/Unidad_central_de_procesamiento",
+                video: ""
+            },
+            "memorias": {
+                title: "Memorias (RAM y ROM)",
+                image: "https://pspstation.org/wp-content/uploads/2018/05/ram-vs-rom.jpg",
+                description: "La memoria RAM almacena datos temporales para acceso rápido, mientras que la ROM contiene instrucciones permanentes esenciales para el arranque.",
+                link: "https://es.wikipedia.org/wiki/Memoria_de_acceso_aleatorio",
+                video: ""
+            },
+            "disco-duro": {
+                title: "Disco Duro (HDD/SSD)",
+                image: "https://th.bing.com/th/id/R.af65ca6de55649fbee0cf74e466abcdc?rik=MZBm%2b73YCZPixQ&riu=http%3a%2f%2f1.bp.blogspot.com%2f-bi-UnloMKcQ%2fTcFqlvCXCTI%2fAAAAAAAAABU%2frDI9YKiz-Ak%2fs1600%2fdisco-duro.jpg&ehk=M38BQrxj4%2fbqHJ%2fV%2bLrNWHsCfmfN1NY9sWMEj2CJhxs%3d&risl=&pid=ImgRaw&r=0",
+                description: "El disco duro es el dispositivo de almacenamiento permanente donde se guardan los datos y programas del sistema.",
+                link: "https://es.wikipedia.org/wiki/Disco_duro",
+                video: ""
+            },
+            "tarjetas-expansion": {
+                title: "Tarjetas de Expansión",
+                image: "https://vidabytes.com/wp-content/uploads/2021/09/Tarjetas-de-Expansion-1.jpg",
+                description: "Las tarjetas de expansión añaden funcionalidades adicionales como gráficos, sonido o conectividad a la computadora.",
+                link: "https://es.wikipedia.org/wiki/Tarjeta_de_expansi%C3%B3n",
+                video: ""
+            },
+            "unidades-almacenamiento": {
+                title: "Unidades de Almacenamiento",
+                image: "https://247tecno.com/wp-content/uploads/2017/09/alma.jpg",
+                description: "Dispositivos que permiten guardar y transportar datos, como discos externos, pendrives y tarjetas SD.",
+                link: "https://es.wikipedia.org/wiki/Dispositivo_de_almacenamiento",
+                video: ""
+            },
+            "buses-datos": {
+                title: "Buses de Datos",
+                image: "https://conceptoabc.com/wp-content/uploads/2021/05/tecno-bus-de-datos.jpg",
+                description: "Canales que transportan información entre los diferentes componentes del computador para su comunicación.",
+                link: "https://es.wikipedia.org/wiki/Bus_de_datos",
+                video: ""
+            },
+            "setup-bios": {
+                title: "Setup y BIOS",
+                image: "https://tse3.mm.bing.net/th/id/OIP.LmB2Aky17WCDD05bZkxAjgHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
+                description: "El BIOS es el firmware que inicializa el hardware al encender el computador y permite configurar parámetros básicos.",
+                link: "https://es.wikipedia.org/wiki/BIOS",
+                video: ""
+            },
+            "ensamblaje": {
+                title: "Ensamblaje y Conexión",
+                image: "https://1.bp.blogspot.com/-g-QjKXtBjDk/U-T3cbuomNI/AAAAAAAAAI8/gQN_MVWi5yc/s1600/WP_20140808_014.jpg",
+                description: "Proceso de integrar y conectar todos los componentes para que el computador funcione correctamente.",
+                link: "",
+                video: ""
+            },
+            "resumen-externas": {
+                title: "Arquitectura del Computador - Partes Externas",
+                image: "externas.jpg",
+                description: "Dispositivos periféricos: Monitor, teclado, mouse, scanner, impresora, parlantes y micrófonos, proyectores, dispositivos de almacenamiento externo como pendrives, CDs, DVDs, tarjetas SD, discos duros portátiles y disquetes, entre otros.",
+                link: "https://es.wikipedia.org/wiki/Perif%C3%A9rico_de_computadora",
+                video: ""
+            },
+            "teclado": {
+                title: "Teclado",
+                image: "teclado.jpg",
+                description: "El teclado es el dispositivo de entrada que permite al usuario introducir datos y comandos al computador.",
+                link: "https://es.wikipedia.org/wiki/Teclado_(informática)",
+                video: ""
+            },
+            "monitor": {
+                title: "Monitor",
+                image: "monitor.jpg",
+                description: "El monitor es el dispositivo de salida que muestra la información visual al usuario.",
+                link: "https://es.wikipedia.org/wiki/Monitor_(computadora)",
+                video: ""
+            },
+            "mouse": {
+                title: "Mouse",
+                image: "mouse.jpg",
+                description: "El mouse es un dispositivo apuntador que permite al usuario interactuar con la interfaz gráfica del computador.",
+                link: "https://es.wikipedia.org/wiki/Mouse_(informática)",
+                video: ""
+            },
+            "impresora": {
+                title: "Impresora",
+                image: "impresora.jpg",
+                description: "La impresora es un dispositivo de salida que produce una copia física de documentos digitales.",
+                link: "https://es.wikipedia.org/wiki/Impresora",
+                video: ""
+            }
+        };
+
+        // Show component details in content area with fade animation
+        function showComponentDetails(componentKey) {
+            const contentSection = document.getElementById('content-display');
+            // Fix key normalization to match keys in components object
+            const normalizedKey = componentKey.toLowerCase().replace(/\s+/g, '-');
+            if (normalizedKey === 'inicio') {
+                // Special case for 'inicio' to show company info
+                contentSection.style.opacity = '0';
+                setTimeout(() => {
+                    contentSection.innerHTML = `
+                        <h2>CompuSmart</h2>
+                        <p>Somos una empresa líder en soluciones tecnológicas, comprometida con la innovación y la calidad. Nuestra misión es proporcionar productos y servicios que impulsen la transformación digital de nuestros clientes, facilitando su crecimiento y competitividad en el mercado global.</p>
+                        <p>Contamos con un equipo de expertos en desarrollo de software, consultoría tecnológica y soporte técnico, dedicados a ofrecer soluciones personalizadas que se adaptan a las necesidades específicas de cada proyecto.</p>
+                        <p>Nuestros valores fundamentales incluyen la excelencia, la integridad y la colaboración, lo que nos permite construir relaciones duraderas con nuestros clientes y socios estratégicos.</p>
+                        <div style="display: flex; gap: 20px; margin-top: 20px;">
+                            <div style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
+                                <div style="background: #dbe9ff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
+                                    <h3>Información de la Empresa</h3>
+                                    <p>Nombre: CompuSmart</p>
+                                    <p>Servicios: Desarrollo de software, consultoría tecnológica, soporte técnico.</p>
+                                </div>
+                                <div style="background: #dbe9ff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
+                                    <h3>Contactos</h3>
+                                    <p>Teléfono: +123 456 7890</p>
+                                    <p>Email: compusmartsoport@empresa.com</p>
+                                    <p>Dirección: La Independencia, KM48 Via Pto Quito</p>
+                                </div>
+                            </div>
+                            <div style="flex: 1; position: relative; background: #f9fafb; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
+                                <h3>Imagen de la Empresa</h3>
+                                <img src="logon.png" alt="Imagen de la Empresa" style="width: 100%; display: block; border-radius: 8px;" />
+                            </div>
+                        </div>
+                    `;
+                    contentSection.style.opacity = '1';
+                }, 200);
+                return;
+            }
+            if (!components[normalizedKey]) {
+                contentSection.innerHTML = '<h2>Componente no encontrado</h2><p>Seleccione un componente válido del menú.</p>';
+                return;
+            }
+            // Fade out
+            contentSection.style.opacity = '0';
+            setTimeout(() => {
+                const comp = components[normalizedKey];
+                contentSection.innerHTML = `
+                    <h2>${comp.title}</h2>
+                    <div style="display:flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;">
+                        <div style="flex: 1 1 40%; max-width: 40%;">
+                            <img src="${comp.image}" alt="${comp.title}" style="width: 100%; border-radius: 8px;" />
+                        </div>
+                        <div style="flex: 1 1 55%; max-width: 55%;">
+                            <p>${comp.description}</p>
+                            <a href="${comp.link}" target="_blank" class="btn-info">Más información</a>
+                        </div>
+                        <div style="flex-basis: 100%; margin-top: 20px;">
+                            <iframe src="${comp.video}" title="Video ${comp.title}" allowfullscreen style="width: 100%; height: 180px; border-radius: 8px; border: none;"></iframe>
+                        </div>
+                    </div>
+                `;
+                // Fade in
+                contentSection.style.opacity = '1';
+            }, 200);
+        }
+
+        // Attach click event listeners to submenu items
+        document.querySelectorAll('.submenu a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    const key = href.substring(1).toLowerCase().replace(/\s+/g, '-');
+                    showComponentDetails(key);
+                    // Update active menu item styling
+                    document.querySelectorAll('nav.top-nav a.menu-item').forEach(item => item.classList.remove('active'));
+                    document.getElementById('menu-inicio').classList.remove('active');
+                    // Close the submenu as well
+                    const parentSubmenu = link.closest('.submenu');
+                    if (parentSubmenu) {
+                        parentSubmenu.style.display = 'none';
+                        const toggleId = parentSubmenu.id.replace('submenu', 'toggle');
+                        const toggle = document.getElementById(toggleId);
+                        if (toggle) {
+                            toggle.setAttribute('aria-expanded', 'false');
+                            toggle.classList.remove('expanded');
+                        }
+                    }
+                }
+            });
+        });
+
+        // Attach click event listener to "Inicio" button
+        const inicioBtn = document.getElementById('menu-inicio');
+        inicioBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showComponentDetails('inicio');
+            // Update active menu item styling
+            document.querySelectorAll('nav.top-nav a.menu-item').forEach(item => item.classList.remove('active'));
+            inicioBtn.classList.add('active');
+        });
+
+
+        // Load "Inicio" content on page load
+        window.addEventListener('load', () => {
+            showComponentDetails('inicio');
+        });
+
+        // Click on "CompuSmart" to go to "Inicio"
+        const logoText = document.getElementById('logo-text');
+        logoText.addEventListener('click', () => {
+            showComponentDetails('inicio');
+            // Update active menu item styling
+            document.querySelectorAll('nav.top-nav a.menu-item').forEach(item => item.classList.remove('active'));
+            document.getElementById('menu-inicio').classList.add('active');
+        });
+    </script>
+</body>
+</html>
